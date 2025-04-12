@@ -1,0 +1,27 @@
+.form-signin-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 1rem;
+}
+
+.password-container {
+    position: relative;
+}
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+.signinlink {
+    cursor: pointer;
+}
