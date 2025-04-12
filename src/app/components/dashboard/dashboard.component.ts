@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
           <div class="col-lg-8 text-center">
             <div class="card shadow-sm p-4">
               <h2 class="mb-3">My Courses</h2>
-              <p class="text-muted">You have no current courses.</p>
+              <p class="text-muted">You have no courses.</p>
             </div>
           </div>
         </div>
