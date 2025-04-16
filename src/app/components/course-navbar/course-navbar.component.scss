@@ -1,0 +1,17 @@
+a {
+    color: rgba(255, 255, 255, 0.788);
+    font-size: 1.25em;
+  }
+  
+  .navbar {
+    :host {
+      display: block;
+      box-shadow: 0 1px 20px rgba(7, 7, 7, 0.1); // thin light shadow
+    }
+  
+  }
+  
+  :host {
+    display: block;
+      border-bottom: 1px solid #444;
+  }

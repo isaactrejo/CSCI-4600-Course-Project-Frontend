@@ -1,0 +1,27 @@
+.filled-icon {
+    font-size: 28px; // or whatever size you want
+  }
+  
+:host {
+    display: block;
+    border-bottom: 1px solid #444;
+    border-top: 5px solid #C41E3A;
+    box-shadow: 0 1px 2 rgba($color: #000000, $alpha: 1.0);
+}
+
+:host ::ng-deep .dropdown-toggle::affter {
+  display: none;
+}
+
+.navbar-nav .nav-link {
+  cursor: pointer;
+}
+
+.navbar-brand {
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}

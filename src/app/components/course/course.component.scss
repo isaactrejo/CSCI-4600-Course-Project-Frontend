@@ -1,0 +1,18 @@
+.dark-card {
+    background-color: #131313;
+    color: #f1f1f1;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    border-radius: 0.5rem;
+  }
+
+  .nav-tabs .nav-link {
+    color: #aaa;
+    background-color: #1a1a1a;
+    border: none;
+  }
+  .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #131313;
+    border-bottom: 2px solid #444; // a subtle separator
+  }

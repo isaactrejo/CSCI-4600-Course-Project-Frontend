@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import {trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login-page',
@@ -35,47 +36,84 @@ import { Router } from '@angular/router';
       </div>
     </div> -->
     <!-- autocomplete="off" -->
-    <div class="vh-100 w-100 bg-dark form-signin-container" data-bs-theme="dark">
-      <main class="form-signin w-100 m-auto text-light">
-        <form [formGroup]="authForm" (ngSubmit)="onSubmit()" ngNativeValidate>
-          <img class="mb-4" src="https://1000logos.net/wp-content/uploads/2019/09/Austin-Peay-Governors-Logo-1976.png" alt="" width="100" height="57">
-          <h1 *ngIf="isSigningIn == true" class="h3 mb-3 fw-normal">Please sign in</h1>
-          <h1 *ngIf="isSigningIn == false" class="h3 mb-3 fw-normal">Create an account</h1>
-
-          <div *ngIf="isSigningIn == false" class="form-floating mt-3 position-relative">
-            <input formControlName="firstname" type="text" class="form-control" id="floatingInput" placeholder="First Name" required>
-            <label for="floatingInput">First Name</label>
-          </div>
-          <div class="form-floating mt-3 position-relative">
-            <input formControlName="email" type="text" class="form-control" id="floatingInput" placeholder="Email" required>
-            
-            <label for="floatingInput">Email</label>
-          </div>
-          <div class="form-floating mt-3 position-relative">
-            <input formControlName="password" [type]="passwordFieldType" class="form-control" id="floatingPassword" placeholder="Password" required>
-            <label for="floatingPassword">Password</label>
-            <i class="bi" [ngClass]="passwordIcon" (click)="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
-          </div>
-          <small *ngIf="isSigningIn == true">Don't have an account? <a class="signinlink" (click)="goToSignUp()">Sign Up</a></small>
-          <small *ngIf="isSigningIn == false">Already have an account? <a class="signinlink" (click)="goToSignUp()">Sign In</a></small>
-
-          <div *ngIf="isSigningIn == true" class="form-check text-start my-3">
-            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Remember me
-            </label>
-          </div>
-          <button *ngIf="isSigningIn == true" class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-          <button *ngIf="isSigningIn == false" class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
-          <p class="mt-5 mb-3 text-body-secondary">© Team5 2025</p>
-        </form>
-      </main>
+    <div class="vh-100 w-100 bg-dark form-signin-container d-flex align-items-center justify-content-center" data-bs-theme="dark">
+      <div class="col-lg-4 text-center mb-3">
+        <div class="card dark-card p-4 my-3">
+          <main class="form-signin w-100 m-auto text-light">
+            <form [formGroup]="authForm" (ngSubmit)="onSubmit()" ngNativeValidate>
+              <img class="mb-4" src="https://1000logos.net/wp-content/uploads/2019/09/Austin-Peay-Governors-Logo-1976.png" alt="Logo" width="100" height="57">
+              <h1 *ngIf="isSigningIn" class="h3 mb-3 fw-normal">Please sign in</h1>
+              <h1 *ngIf="!isSigningIn" class="h3 mb-3 fw-normal">Create an account</h1>
+              
+              <!-- Only show these fields when signing up -->
+              <div *ngIf="!isSigningIn">
+                <div class="form-floating mt-3 position-relative">
+                  <input formControlName="firstname" type="text" class="form-control" id="floatingFirstName" placeholder="First Name" required>
+                  <label for="floatingFirstName">First Name</label>
+                </div>
+                <div class="form-floating mt-3 position-relative">
+                  <input formControlName="lastname" type="text" class="form-control" id="floatingLastName" placeholder="Last Name" required>
+                  <label for="floatingLastName">Last Name</label>
+                </div>
+                <div class="mt-3">
+                  <label class="form-label">I am a:</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="userType" id="studentRadio" value="student" formControlName="userType">
+                    <label class="form-check-label" for="studentRadio">Student</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="userType" id="teacherRadio" value="teacher" formControlName="userType">
+                    <label class="form-check-label" for="teacherRadio">Teacher</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="userType" id="adminRadio" value="admin" formControlName="userType">
+                    <label class="form-check-label" for="adminRadio">Admin</label>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Always ask for email and password -->
+              <div class="form-floating mt-3 position-relative">
+                <input formControlName="email" type="email" class="form-control" id="floatingInput" placeholder="Email" required>
+                <label for="floatingInput">Email</label>
+              </div>
+              <div class="form-floating mt-3 position-relative">
+                <input formControlName="password" [type]="passwordFieldType" class="form-control" id="floatingPassword" placeholder="Password" required>
+                <label for="floatingPassword">Password</label>
+                <i class="bi" [ngClass]="passwordIcon" (click)="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+              </div>
+              <small *ngIf="isSigningIn" class="d-block mt-2">Don't have an account? <a class="signinlink" (click)="goToSignUp()">Sign Up</a></small>
+              <small *ngIf="!isSigningIn" class="d-block mt-2">Already have an account? <a class="signinlink" (click)="goToSignUp()">Sign In</a></small>
+              
+              <div *ngIf="isSigningIn" class="form-check text-start my-3">
+                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Remember me
+                </label>
+              </div>
+              <button *ngIf="isSigningIn" class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+              <button *ngIf="!isSigningIn" class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+              <p class="mt-5 mb-3 text-body-secondary">© Team5 2025</p>
+            </form>
+          </main>
+        </div>
+      </div>
     </div>
-
   </section>
     
   `,
-  styleUrl: './login-page.component.scss'
+  styleUrl: './login-page.component.scss',
+  animations: [
+    trigger('expandCollapse', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0}),
+        animate('300ms ease-in', style({ hegiht: '*', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ height: 0, opacity: 0 }))
+      ])
+    ])
+  ]
 })
 
 export class LoginPageComponent {
