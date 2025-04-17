@@ -18,10 +18,6 @@ import { Component } from '@angular/core';
         <a class="nav-link" routerLink="/grades">Content</a>
       </li>
 
-      <li class="nav-item me-4">
-        <a class="nav-link" routerLink="/grades">Grades</a>
-      </li>
-
       <!-- Support Dropdown -->
       <li class="nav-item dropdown me-4">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

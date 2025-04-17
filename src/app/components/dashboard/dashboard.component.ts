@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { DashboardNavbarComponent } from '../dashboard-navbar/dashboard-navbar.component';
 import { MainNavbarComponent } from '../main-navbar/main-navbar.component';
@@ -13,7 +14,7 @@ import { WorkDueComponent } from '../work-due/work-due.component';
     CommonModule,
     DashboardNavbarComponent,
     MainNavbarComponent,
-    WorkDueComponent
+    WorkDueComponent,
   ],
   template: `
   <div>
