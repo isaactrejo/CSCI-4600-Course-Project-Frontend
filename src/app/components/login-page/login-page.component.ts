@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {trigger, transition, style, animate } from '@angular/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-login-page',
@@ -39,6 +40,7 @@ import {trigger, transition, style, animate } from '@angular/animations';
     <div class="vh-100 w-100 bg-dark form-signin-container d-flex align-items-center justify-content-center" data-bs-theme="dark">
       <div class="col-lg-4 text-center mb-3">
         <div class="card dark-card p-4 my-3">
+          
           <main class="form-signin w-100 m-auto text-light">
             <form [formGroup]="authForm" (ngSubmit)="onSubmit()" ngNativeValidate>
               <img class="mb-4" src="https://1000logos.net/wp-content/uploads/2019/09/Austin-Peay-Governors-Logo-1976.png" alt="Logo" width="100" height="57">
@@ -46,7 +48,7 @@ import {trigger, transition, style, animate } from '@angular/animations';
               <h1 *ngIf="!isSigningIn" class="h3 mb-3 fw-normal">Create an account</h1>
               
               <!-- Only show these fields when signing up -->
-              <div *ngIf="!isSigningIn">
+              <div *ngIf="!isSigningIn" @expandCollapse>
                 <div class="form-floating mt-3 position-relative">
                   <input formControlName="firstname" type="text" class="form-control" id="floatingFirstName" placeholder="First Name" required>
                   <label for="floatingFirstName">First Name</label>
@@ -110,7 +112,7 @@ import {trigger, transition, style, animate } from '@angular/animations';
         animate('300ms ease-in', style({ hegiht: '*', opacity: 1 }))
       ]),
       transition(':leave', [
-        animate('300ms ease-in', style({ height: 0, opacity: 0 }))
+        animate('300ms ease-out', style({ height: 0, opacity: 0 }))
       ])
     ])
   ]
@@ -147,8 +149,10 @@ export class LoginPageComponent {
     
       if(this.isSigningIn == true) {
         this.isSigningIn = false;
+        console.log("Signing up");
       } else if(this.isSigningIn == false) {
         this.isSigningIn = true;
+        console.log("Signing in");
       }
   }
 
