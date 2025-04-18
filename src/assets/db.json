@@ -1,0 +1,164 @@
+{
+  "users": [
+    {
+      "id": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "name": "Samuel Trejo",
+      "email": "mrto0ns@live.com",
+      "type": "student"
+    },
+    {
+      "id": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "name": "Isaac Trejo",
+      "email": "itrejomendoza@my.apsu.edu",
+      "type": "student"
+    }
+  ],
+  "courses": [
+    {
+      "id": "e5e71bc8-5fea-4f0c-9efb-16b290cac7a2",
+      "name": "Sociology 1010-W2"
+    },
+    {
+      "id": "b477950f-392c-4cd9-9f12-29d80ddf2b9f",
+      "name": "Mathematics 2450-01"
+    },
+    {
+      "id": "f48191c3-f99c-4ace-910d-d147836d5959",
+      "name": "Computer Science 4601-07"
+    },
+    {
+      "id": "ba2107a5-1ae2-4468-995e-18cba39bfae9",
+      "name": "Computer Science 4600-11"
+    },
+    {
+      "id": "4a8aa492-6f22-42d5-8040-e9399ec28c06",
+      "name": "Computer Science 4270-05"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "7c15ad4a-f55c-4b6c-8511-30a6f982146e",
+      "name": "Sociology: Essay on Social Structures",
+      "dueDate": "2025-07-07",
+      "courseId": "e5e71bc8-5fea-4f0c-9efb-16b290cac7a2"
+    },
+    {
+      "id": "e3099266-ba6b-42e0-ae8b-d37b4aa21aaa",
+      "name": "Sociology: Group Presentation",
+      "dueDate": "2025-07-10",
+      "courseId": "e5e71bc8-5fea-4f0c-9efb-16b290cac7a2"
+    },
+    {
+      "id": "794f1d82-64b4-4538-b655-aa55639c77ee",
+      "name": "Math: Calculus Homework 1",
+      "dueDate": "2025-07-07",
+      "courseId": "b477950f-392c-4cd9-9f12-29d80ddf2b9f"
+    },
+    {
+      "id": "c1d52dcf-bbfa-429b-b056-58f8a467461a",
+      "name": "Math: Derivatives Quiz",
+      "dueDate": "2025-07-09",
+      "courseId": "b477950f-392c-4cd9-9f12-29d80ddf2b9f"
+    },
+    {
+      "id": "16c91690-2324-49b9-b64e-fee3cd7f172b",
+      "name": "CS: Build a REST API",
+      "dueDate": "2025-07-12",
+      "courseId": "f48191c3-f99c-4ace-910d-d147836d5959"
+    },
+    {
+      "id": "f9a2ca33-db35-410d-81e9-5ce607212e93",
+      "name": "CS: Algorithms Assignment",
+      "dueDate": "2025-07-15",
+      "courseId": "f48191c3-f99c-4ace-910d-d147836d5959"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "enr1",
+      "userId": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "courseId": "e5e71bc8-5fea-4f0c-9efb-16b290cac7a2"
+    },
+    {
+      "id": "enr2",
+      "userId": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "courseId": "e5e71bc8-5fea-4f0c-9efb-16b290cac7a2"
+    },
+    {
+      "id": "enr3",
+      "userId": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "courseId": "b477950f-392c-4cd9-9f12-29d80ddf2b9f"
+    },
+    {
+      "id": "enr4",
+      "userId": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "courseId": "f48191c3-f99c-4ace-910d-d147836d5959"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "sub1",
+      "userId": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "assignmentId": "7c15ad4a-f55c-4b6c-8511-30a6f982146e",
+      "submittedAt": "2025-07-06T12:00:00Z",
+      "status": "submitted",
+      "score": 92
+    },
+    {
+      "id": "sub2",
+      "userId": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "assignmentId": "7c15ad4a-f55c-4b6c-8511-30a6f982146e",
+      "submittedAt": "2025-07-07T10:00:00Z",
+      "status": "submitted",
+      "score": 88
+    },
+    {
+      "id": "sub3",
+      "userId": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "assignmentId": "794f1d82-64b4-4538-b655-aa55639c77ee",
+      "submittedAt": "2025-07-06T18:00:00Z",
+      "status": "submitted",
+      "score": 75
+    },
+    {
+      "id": "sub4",
+      "userId": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "assignmentId": "16c91690-2324-49b9-b64e-fee3cd7f172b",
+      "submittedAt": "2025-07-11T16:00:00Z",
+      "status": "submitted",
+      "score": 98
+    },
+    {
+      "id": "sub5",
+      "userId": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "assignmentId": "e3099266-ba6b-42e0-ae8b-d37b4aa21aaa",
+      "submittedAt": null,
+      "status": "pending",
+      "score": null
+    },
+    {
+      "id": "sub6",
+      "userId": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "assignmentId": "e3099266-ba6b-42e0-ae8b-d37b4aa21aaa",
+      "submittedAt": "2025-07-11T23:59:00Z",
+      "status": "late",
+      "score": 80
+    },
+    {
+      "id": "sub7",
+      "userId": "Q4iCasahdPNYIijgw7gR7rTWKAR2",
+      "assignmentId": "c1d52dcf-bbfa-429b-b056-58f8a467461a",
+      "submittedAt": "2025-07-09T08:30:00Z",
+      "status": "submitted",
+      "score": 83
+    },
+    {
+      "id": "sub8",
+      "userId": "DpXGwlEdYwc1esie02x6m6b1hVQ2",
+      "assignmentId": "f9a2ca33-db35-410d-81e9-5ce607212e93",
+      "submittedAt": null,
+      "status": "pending",
+      "score": null
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import {trigger, transition, style, animate } from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -133,6 +134,17 @@ export class LoginPageComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   })
+
+  ngOnInit() {
+    this.authService.isLoggedIn().pipe(
+      take(1),
+      tap((isAllowed) => {
+        if (isAllowed) {
+          this.router.navigate(['/dashboard']);
+        }
+      })
+    ).subscribe();
+  }
   
   goToSignUp() {
     
