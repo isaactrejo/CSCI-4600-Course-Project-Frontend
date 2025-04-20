@@ -16,31 +16,31 @@ import { WorkDueComponent } from '../work-due/work-due.component';
     WorkDueComponent
   ],
   template: `
-  <div>
-  <app-main-navbar></app-main-navbar>
-  <app-dashboard-navbar></app-dashboard-navbar>
-  
-  <div class="container-fluid mt-4">
-    <div class="row justify-content-center">
-      
-      <!-- Example: multiple cards side by side -->
-      <div class="col-lg-4 text-center mb-3">
-        <div class="card dark-card p-4 my-3">
-          <h2 class="mb-3">My Courses</h2>
-          <p class="text-muted">You have no current courses.</p>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 text-center mb-3">
-        <!-- Here is our new WorkDue card -->
-        <app-work-due></app-work-due>
-      </div>
-
-      <!-- Add more col-lg-4 for extra cards if desired -->
+  <div style="background-color: #131313; min-height: 100vh;">
+    <app-main-navbar></app-main-navbar>
+    <app-dashboard-navbar></app-dashboard-navbar>
     
+    <div class="container-fluid mt-4" >
+      <div class="row justify-content-center" >
+        
+        <!-- Example: multiple cards side by side -->
+        <div class="col-lg-4 text-center mb-3">
+          <div class="card bg-dark dark-card p-4 my-3">
+            <h2 class="mb-3">My Courses</h2>
+            <p class="text-muted">You have no current courses.</p>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 text-center mb-3">
+          <!-- Here is our new WorkDue card -->
+          <app-work-due></app-work-due>
+        </div>
+
+        <!-- Add more col-lg-4 for extra cards if desired -->
+      
+      </div>
     </div>
   </div>
-</div>
   `,
   styleUrl: './dashboard.component.scss'
 })

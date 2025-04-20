@@ -19,3 +19,8 @@ a {
   display: block;
     border-bottom: 1px solid #444;
 }
+
+// make nav items turn the cursor to a pointer when hovered over
+ .navbar-nav .nav-link:hover {
+  cursor: pointer;
+}

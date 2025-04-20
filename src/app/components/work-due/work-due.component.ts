@@ -6,9 +6,9 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="card dark-card p-4 my-3">
+    <div class="card bg-dark dark-card p-4 my-3">
       <h3 class="mb-3">Work Due</h3>
-      <p class="text-muted mb-0">
+      <p class="mb-0">
         <!-- Future assingments info goes here -->
          No assignments due yet.
       </p>

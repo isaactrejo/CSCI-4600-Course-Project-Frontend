@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import { provideIcons } from '@ng-icons/core';
 import { heroUsers } from '@ng-icons/heroicons/outline';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   template: `
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #131313;">
   <h3 class="container d-flex justify-content-between align-items-center">
     <a class="navbar-brand" routerLink="/dashboard">
       <img 
@@ -43,12 +43,12 @@ import { Router } from '@angular/router';
           aria-expanded="false">
           <i class="bi bi-person-square"></i>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end">
+        <ul class="bg-dark dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" routerLink="/profile">Profile Settings</a>
+            <a class="bg-dark text-white dropdown-item" routerLink="/profile">Profile Settings</a>
           </li>
           <li>
-            <button class="dropdown-item" (click)="signOut()">Logout</button>
+            <button class="bg-dark text-white dropdown-item" (click)="signOut()">Logout</button>
           </li>
         </ul>
       </li>
