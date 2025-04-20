@@ -23,56 +23,37 @@ import { Course } from '../models/course';
     NgFor
   ],
   template: `
-  <div style="background-color: #131313; min-height: 100vh;">
-    <app-main-navbar></app-main-navbar>
-    <app-dashboard-navbar></app-dashboard-navbar>
   <div>
-  
-  <div class="container-fluid mt-4">
-    <div class="row justify-content-center">
-      
-      <!-- Example: multiple cards side by side -->
-      <div class="col-lg-8 text-center mb-3">
-        <div class="card dark-card p-4 my-3">
-          <h2 class="mb-3">My Courses</h2>
-          <p *ngIf="!courses.length" class="text-muted">You have no current courses.</p>
+    <div style="background-color: #131313; min-height: 100vh;">
+      <app-main-navbar></app-main-navbar>
+      <app-dashboard-navbar></app-dashboard-navbar>
+    <div>
+    
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        
+        <!-- Example: multiple cards side by side -->
+        <div class="col-lg-9 text-center mb-3">
+          <div class="card bg-dark dark-card p-4 my-3">
+            <h2 class="mb-3">My Courses</h2>
+            <p *ngIf="!courses.length" class="text-muted">You have no current courses.</p>
 
-          <div class="row g-3" *ngIf="courses.length">
-            <div class="col-md-6" *ngFor="let course of courses">
-              <div class="card bg-dark text-light h-100 shadow-sm">
-                <img [src]="'https://picsum.photos/seed/' + course.id + '/400/200'" class="card-img-top" alt="Course image">
-                <div class="card-body">
-                  <h5 class="card-title mb-1">{{ course.name }}</h5>
-                  <!-- <p class="card-text small">ID: {{ course.id }}</p> -->
-                  <!-- Add more info or buttons here if needed -->
+            <div class="row g-3" *ngIf="courses.length">
+              <div class="col-md-4" *ngFor="let course of courses">
+                <div class="card bg-dark text-light h-100 shadow-sm">
+                  <img [src]="'https://picsum.photos/seed/' + course.id + '/400/200'" class="card-img-top" alt="Course image">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">{{ course.name }}</h5>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        </div>
-      </div>
-
-      
-      <div class="col-lg-4 text-center mb-3">
-        <!-- Here is our new WorkDue card -->
-        <app-work-due></app-work-due>
-      </div>
-
-      <!-- Add more col-lg-4 for extra cards if desired -->
-    
-    <div class="container-fluid mt-4" >
-      <div class="row justify-content-center" >
-        
-        <!-- Example: multiple cards side by side -->
-        <div class="col-lg-4 text-center mb-3">
-          <div class="card bg-dark dark-card p-4 my-3">
-            <h2 class="mb-3">My Courses</h2>
-            <p class="text-muted">You have no current courses.</p>
           </div>
         </div>
+
         
-        <div class="col-lg-4 text-center mb-3">
+        <div class="col-lg-3 text-center mb-3">
           <!-- Here is our new WorkDue card -->
           <app-work-due></app-work-due>
         </div>
