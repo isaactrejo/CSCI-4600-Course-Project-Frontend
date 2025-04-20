@@ -7,12 +7,10 @@ import { Router } from '@angular/router';
 import {trigger, 
   transition, 
   style, 
-  animate, 
-  animateChild, 
-  query, 
-  state, 
-  group
+  animate
 } from '@angular/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -135,6 +133,17 @@ export class LoginPageComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   })
+
+  ngOnInit() {
+    this.authService.isLoggedIn().pipe(
+      take(1),
+      tap((isAllowed) => {
+        if (isAllowed) {
+          this.router.navigate(['/dashboard']);
+        }
+      })
+    ).subscribe();
+  }
   
   goToSignUp() {
     
@@ -151,8 +160,10 @@ export class LoginPageComponent {
     
       if(this.isSigningIn == true) {
         this.isSigningIn = false;
+        console.log("Signing up");
       } else if(this.isSigningIn == false) {
         this.isSigningIn = true;
+        console.log("Signing in");
       }
   }
 

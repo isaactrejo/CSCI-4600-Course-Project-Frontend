@@ -1,7 +1,7 @@
 import { inject, Inject, Injectable } from '@angular/core';
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, Auth } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, Auth, User } from "firebase/auth";
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -26,6 +26,9 @@ export class AuthService {
   
   private authStateSubject = new BehaviorSubject<boolean | null>(null);
   authState$ = this.authStateSubject.asObservable();
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
+
   private router = inject(Router);
   constructor() {
     this.app = initializeApp(this.firebaseConfig);
@@ -37,10 +40,12 @@ export class AuthService {
         const uid = user.uid;
         console.log("User is signed in with UID:", uid);
         this.authStateSubject.next(true);
+        this.userSubject.next(user);
       } else {
         // User is signed out, perform actions like redirecting to the login page
         console.log("User is signed out");
         this.authStateSubject.next(false);
+        this.userSubject.next(null);
       }
     });
   }
@@ -79,6 +84,14 @@ export class AuthService {
         console.log(authState)
         return authState == true;
       })
+    );
+  }
+
+  resolve(): Observable<User | null> {
+    return this.user$.pipe(
+      filter(user => user !== null), // wait until user is available
+      take(1),
+      map(user => user)
     );
   }
 }
