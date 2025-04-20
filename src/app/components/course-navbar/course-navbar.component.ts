@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-course-navbar',
   standalone: true,
   imports: [],
   template: `
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+<nav class="navbar navbar-expand-lg navbar-dark px-4" style="background-color: #131313;">
   <div class="container d-flex justify-content-between align-items-center">
     
     <ul class="navbar-nav d-flex flex-row">
@@ -23,7 +25,7 @@ import { Component } from '@angular/core';
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Support
         </a>
-        <ul class="dropdown-menu">
+        <ul class="bg-dark dropdown-menu">
           <li>
             <a class="dropdown-item" href="https://library.apsu.edu/" target="_blank" rel="noopener noreferrer">
               APSU Library

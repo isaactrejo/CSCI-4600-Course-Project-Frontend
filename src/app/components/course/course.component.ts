@@ -13,7 +13,7 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
 ],
   template: `
 
-<div class="bg-dark min-vh-100">
+<div class="min-vh-100" style="background-color: #131313;">
       <!-- Course Navbar -->
        <app-main-navbar></app-main-navbar>
       <app-course-navbar></app-course-navbar>
@@ -22,9 +22,11 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
       <div class="container mt-4">
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs mb-3" role="tablist">
+
+          <!-- Assignments Tab -->
           <li class="nav-item" role="presentation">
             <a 
-              class="nav-link active" 
+              class="bg-dark nav-link active" 
               id="assignments-tab" 
               data-bs-toggle="tab" 
               href="#assignments" 
@@ -34,9 +36,25 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
               Assignments
             </a>
           </li>
+
+          <!-- Quiz -->
           <li class="nav-item" role="presentation">
             <a 
-              class="nav-link" 
+              class="bg-dark nav-link" 
+              id="quizzes-tab" 
+              data-bs-toggle="tab" 
+              href="#quizzes" 
+              role="tab"
+              aria-controls="quizzes"
+              aria-selected="false">
+              Quizzes
+            </a>
+          </li>
+          
+          <!-- Grades Tab -->
+          <li class="nav-item" role="presentation">
+            <a 
+              class="bg-dark nav-link" 
               id="grades-tab" 
               data-bs-toggle="tab" 
               href="#grades" 
@@ -46,9 +64,11 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
               Grades
             </a>
           </li>
+
+          <!-- Discussion Tab -->
           <li class="nav-item" role="presentation">
             <a 
-              class="nav-link" 
+              class="bg-dark nav-link" 
               id="discussion-tab" 
               data-bs-toggle="tab" 
               href="#discussion" 
@@ -68,10 +88,24 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
             id="assignments" 
             role="tabpanel" 
             aria-labelledby="assignments-tab">
-            <div class="card dark-card p-4">
+            <div class="bg-dark card dark-card p-4">
               <h4 class="mb-3">Assignments</h4>
-              <p class="text-muted">
+              <p>
                 No assignments due yet. (Content to be loaded from SQL later.)
+              </p>
+            </div>
+          </div>
+
+          <!-- Quizzes Tab Pane -->
+          <div 
+            class="tab-pane fade" 
+            id="quizzes" 
+            role="tabpanel" 
+            aria-labelledby="quizzes-tab">
+            <div class="bg-dark card dark-card p-4">
+              <h4 class="mb-3">Quizzes</h4>
+              <p>
+                No quizzes due yet. (Content to be loaded from SQL later.)
               </p>
             </div>
           </div>
@@ -82,9 +116,9 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
             id="grades" 
             role="tabpanel" 
             aria-labelledby="grades-tab">
-            <div class="card dark-card p-4">
+            <div class="bg-dark card dark-card p-4">
               <h4 class="mb-3">Grades</h4>
-              <p class="text-muted">
+              <p>
                 Grades will be displayed here.
               </p>
             </div>
@@ -96,9 +130,9 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
             id="discussion" 
             role="tabpanel" 
             aria-labelledby="discussion-tab">
-            <div class="card dark-card p-4">
+            <div class="bg-dark card dark-card p-4">
               <h4 class="mb-3">Discussion</h4>
-              <p class="text-muted">
+              <p>
                 Discussion board coming soon.
               </p>
             </div>

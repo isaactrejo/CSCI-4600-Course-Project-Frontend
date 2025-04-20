@@ -6,11 +6,9 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-dashboard-navbar',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule],
+  imports: [CommonModule, RouterModule],
   template: `
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+<nav class="navbar navbar-expand-lg navbar-dark px-4" style="background-color: #131313;">
   <div class="container d-flex justify-content-between align-items-center">
     
     <ul class="navbar-nav d-flex flex-row">
