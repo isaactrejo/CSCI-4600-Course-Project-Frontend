@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { DashboardNavbarComponent } from '../dashboard-navbar/dashboard-navbar.component';
 import { MainNavbarComponent } from '../main-navbar/main-navbar.component';
 import { WorkDueComponent } from '../work-due/work-due.component';
@@ -16,6 +16,7 @@ import { Course } from '../models/course';
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     DashboardNavbarComponent,
     MainNavbarComponent,
     WorkDueComponent,
@@ -40,7 +41,11 @@ import { Course } from '../models/course';
 
             <div class="row g-3" *ngIf="courses.length">
               <div class="col-md-4" *ngFor="let course of courses">
-                <div class="card bg-dark text-light h-100 shadow-sm">
+                
+                <div 
+                  class="card bg-dark text-light h-100 shadow-sm"
+                  [routerLink]="['/course', course.id]"
+                  style="cursor: pointer;">
                   <img [src]="'https://picsum.photos/seed/' + course.id + '/400/200'" class="card-img-top" alt="Course image">
                   <div class="card-body">
                     <h5 class="card-title mb-1">{{ course.name }}</h5>
