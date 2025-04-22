@@ -9,7 +9,7 @@ import { AuthService } from './services/auth.service';
 export const routes: Routes = [
   { path: '', component: LoginPageComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], resolve: { user: AuthService} },
-  { path: 'course', component: CourseComponent, canActivate: [authGuard] },
+  { path: 'course/:id', component: CourseComponent, canActivate: [authGuard] },
   { path: 'assignment', component: AssignmentComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

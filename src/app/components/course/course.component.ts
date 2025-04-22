@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CourseNavbarComponent } from '../course-navbar/course-navbar.component';
 import { CommonModule } from '@angular/common';
 import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
+import { OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-course',
@@ -144,6 +146,13 @@ import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
   `,
   styleUrl: './course.component.scss'
 })
-export class CourseComponent {
+export class CourseComponent implements OnInit {
+  route: ActivatedRoute = inject(ActivatedRoute);
+  courseId: string | null = null;
 
+  ngOnInit() {
+    this.courseId = this.route.snapshot.paramMap.get('id');
+    console.log('Course ID:', this.courseId);
+    
+  }
 }
