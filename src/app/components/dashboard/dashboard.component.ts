@@ -8,7 +8,6 @@ import { MainNavbarComponent } from '../main-navbar/main-navbar.component';
 import { WorkDueComponent } from '../work-due/work-due.component';
 import { User } from 'firebase/auth';
 import { CourseService } from '../../services/course.service';
-import { HttpClientModule } from '@angular/common/http';
 import { Course } from '../models/course';
 
 @Component({
