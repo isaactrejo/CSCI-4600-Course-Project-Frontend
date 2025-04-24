@@ -24,4 +24,19 @@ export class CourseService {
       })
     );
   }
+
+  getAssignments(courseId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/assignments`).pipe(
+      map(assignments => assignments.filter(assignment => assignment.courseId === courseId))
+    );
+  }
+
+  getCourseName(courseId: string): Observable<string | undefined> {
+    return this.http.get<Course[]>(`${this.base}/courses`).pipe(
+      map(courses => {
+        const course = courses.find(course => course.id === courseId);
+        return course ? course.name : undefined;
+      })
+    );
+  }
 }

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CourseNavbarComponent } from '../course-navbar/course-navbar.component';
 import { CommonModule } from '@angular/common';
 import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
-import { OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-course',
@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
     CourseNavbarComponent,
     CommonModule,
     MainNavbarComponent
-],
+  ],
   template: `
 
 <div class="min-vh-100" style="background-color: #131313;">
@@ -38,7 +38,6 @@ import { ActivatedRoute } from '@angular/router';
               Assignments
             </a>
           </li>
-
           <!-- Quiz -->
           <li class="nav-item" role="presentation">
             <a 
@@ -92,11 +91,31 @@ import { ActivatedRoute } from '@angular/router';
             aria-labelledby="assignments-tab">
             <div class="bg-dark card dark-card p-4">
               <h4 class="mb-3">Assignments</h4>
-              <p>
-                No assignments due yet. (Content to be loaded from SQL later.)
-              </p>
+              <div class="table-responsive">
+                <table class="table table-dark table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Assignment</th>
+                      <th scope="col">Due Date</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="assignments.length > 0; else noAssignments">
+                    <ng-container *ngFor="let assignment of assignments">
+                      <tr>
+                        <td>{{ assignment.name }}</td>
+                        <td>{{ assignment.dueDate }}</td>
+                        <td>{{ assignment.status }}</td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+                <ng-template #noAssignments>
+                  <p class="text-muted">No assignments available.</p>
+                </ng-template>
+              </div>
             </div>
-          </div>
+          </div> 
 
           <!-- Quizzes Tab Pane -->
           <div 
@@ -144,15 +163,28 @@ import { ActivatedRoute } from '@angular/router';
     </div>
     
   `,
-  styleUrl: './course.component.scss'
+  styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
-  route: ActivatedRoute = inject(ActivatedRoute);
+
   courseId: string | null = null;
+  assignments: any[] = [];
+  courseName: string = '';
+
+  constructor(private route: ActivatedRoute, private courseService: CourseService) { }
 
   ngOnInit() {
     this.courseId = this.route.snapshot.paramMap.get('id');
     console.log('Course ID:', this.courseId);
-    
+
+    if(this.courseId) {
+      this.courseService.getCourseName(this.courseId).subscribe(name => {
+        this.courseName = name || '';
+      });
+
+      this.courseService.getAssignments(this.courseId).subscribe(assignments => {
+        this.assignments = assignments;
+      });
+    }
   }
 }

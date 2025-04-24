@@ -1,6 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { provideIcons } from '@ng-icons/core';
-import { heroUsers } from '@ng-icons/heroicons/outline';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
@@ -20,6 +18,9 @@ import { Router, RouterModule } from '@angular/router';
         [style.maxWidth.px]="80"
         style="height: auto;">
     </a>
+
+//<!-- Where title will be either name or blank ie (name || '')-->
+
     <ul class="navbar-nav d-flex flex-row">
       <li class="nav-item me-4">
         <a class="nav-link" routerLink="/dashboard">
