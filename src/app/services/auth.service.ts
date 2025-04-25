@@ -23,7 +23,7 @@ export class AuthService {
   app: FirebaseApp;
   auth: Auth;
   
-  
+  private authStateUser$ = new BehaviorSubject<User | null>(null);
   private authStateSubject = new BehaviorSubject<boolean | null>(null);
   authState$ = this.authStateSubject.asObservable();
   private userSubject = new BehaviorSubject<User | null>(null);
@@ -93,5 +93,9 @@ export class AuthService {
       take(1),
       map(user => user)
     );
+  }
+
+  setAuthState(user: User | null) {
+    this.authStateUser$.next(user);
   }
 }

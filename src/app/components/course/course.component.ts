@@ -2,8 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CourseNavbarComponent } from '../course-navbar/course-navbar.component';
 import { CommonModule } from '@angular/common';
 import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../services/course.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-course',
@@ -17,7 +18,7 @@ import { CourseService } from '../../services/course.service';
 
 <div class="min-vh-100" style="background-color: #131313;">
       <!-- Course Navbar -->
-       <app-main-navbar></app-main-navbar>
+       <app-main-navbar [courseName]="courseName"></app-main-navbar>
       <app-course-navbar></app-course-navbar>
       
       <!-- Main Content Area -->
@@ -90,7 +91,7 @@ import { CourseService } from '../../services/course.service';
             role="tabpanel" 
             aria-labelledby="assignments-tab">
             <div class="bg-dark card dark-card p-4">
-              <h4 class="mb-3">Assignments</h4>
+              <h4 class="mb-3">Assignments Table</h4>
               <div class="table-responsive">
                 <table class="table table-dark table-striped table-hover">
                   <thead>
@@ -102,7 +103,7 @@ import { CourseService } from '../../services/course.service';
                   </thead>
                   <tbody *ngIf="assignments.length > 0; else noAssignments">
                     <ng-container *ngFor="let assignment of assignments">
-                      <tr>
+                      <tr (click)="navigateToAssignment(assignment.id)" style="cursor: pointer;">
                         <td>{{ assignment.name }}</td>
                         <td>{{ assignment.dueDate }}</td>
                         <td>{{ assignment.status }}</td>
@@ -171,7 +172,7 @@ export class CourseComponent implements OnInit {
   assignments: any[] = [];
   courseName: string = '';
 
-  constructor(private route: ActivatedRoute, private courseService: CourseService) { }
+  constructor(private route: ActivatedRoute, private courseService: CourseService, private router: Router) { }
 
   ngOnInit() {
     this.courseId = this.route.snapshot.paramMap.get('id');
@@ -186,5 +187,9 @@ export class CourseComponent implements OnInit {
         this.assignments = assignments;
       });
     }
+  }
+
+  navigateToAssignment(assignmentId: string) {
+    this.router.navigate(['/assignments', assignmentId]);
   }
 }
