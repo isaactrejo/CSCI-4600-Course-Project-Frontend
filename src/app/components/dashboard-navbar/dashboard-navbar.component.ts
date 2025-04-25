@@ -13,16 +13,21 @@ import { AuthService } from '../../services/auth.service';
     
     <ul class="navbar-nav d-flex flex-row">
 
-      <li class="nav-item me-4">
-        <a class="nav-link">Grades</a>
-      </li>
-
-      <li class="nav-item me-4">
-        <a class="nav-link">Dashboard</a>
-      </li>
-
-      <li class="nav-item me-4">
-        <a class="nav-link" routerLink="/course">Course</a>
+      <!-- Support Dropdown -->
+      <li class="nav-item dropdown me-4">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Support
+        </a>
+        <ul class="bg-dark dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="https://library.apsu.edu/" target="_blank" rel="noopener noreferrer">
+              APSU Library
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#">Another Support Link</a>
+          </li>
+        </ul>
       </li>
 
     </ul>

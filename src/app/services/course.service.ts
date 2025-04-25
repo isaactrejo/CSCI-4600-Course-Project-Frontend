@@ -31,6 +31,10 @@ export class CourseService {
     );
   }
 
+  getAssignmentsById(assignmentId: string): Observable<any> {
+    return this.http.get<any>(`${this.base}/assignments/${assignmentId}`);
+  }
+
   getCourseName(courseId: string): Observable<string | undefined> {
     return this.http.get<Course[]>(`${this.base}/courses`).pipe(
       map(courses => {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
@@ -18,8 +18,8 @@ import { Router, RouterModule } from '@angular/router';
         [style.maxWidth.px]="80"
         style="height: auto;">
     </a>
-
-//<!-- Where title will be either name or blank ie (name || '')-->
+    <!-- Where title course title will be either name or blank ie (name || '')-->
+    <span class="navbar-text text-white" style="font-size: 1.5rem;">{{ courseName || '' }}</span>
 
     <ul class="navbar-nav d-flex flex-row">
       <li class="nav-item me-4">
@@ -33,7 +33,6 @@ import { Router, RouterModule } from '@angular/router';
           <i class="bi bi-chat-left-text-fill"></i>
         </a>
       </li>
-
       <!-- Profile dropdown item -->
       <li class="nav-item dropdown me-4">
         <a 
@@ -60,8 +59,9 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './main-navbar.component.scss'
 })
 export class MainNavbarComponent {
-  router: Router = inject(Router);
-  authService: AuthService = inject(AuthService);
+  @Input() courseName: string = '';
+
+  constructor(private authService: AuthService, private router: Router) {}
   
   signOut() {
     return this.authService.signOut();
