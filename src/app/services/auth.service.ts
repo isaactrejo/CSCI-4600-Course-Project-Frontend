@@ -84,6 +84,9 @@ export class AuthService {
   
   signUp(email: string, password: string): Promise<any> {
     return createUserWithEmailAndPassword(this.auth, email, password)
+      .then(x => {
+        return x;
+      })
       .catch((error) => {
         console.error("SignUp Error:", error.message);
         throw error;
@@ -118,6 +121,20 @@ export class AuthService {
       take(1),
       map(user => user)
     );
+  }
+
+  createUser(user: any) {
+    this.http.post<AppUser>(`${this.backendBaseUrl}`, user)
+      .subscribe({
+        next: (user) => {
+          console.log('Fetched app user:', user);
+          this.appUserSubject.next(user);
+        },
+        error: (error) => {
+          console.error('Error fetching app user:', error);
+          this.appUserSubject.next(null);
+        }
+      });
   }
 
   setAuthState(user: User | null) {

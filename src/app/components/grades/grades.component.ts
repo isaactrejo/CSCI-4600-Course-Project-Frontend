@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-grades',
   standalone: true,
-  imports: [],
+  imports: [NgFor],
   template: `
     <div class="card dark-card p-4 my-3">
       <h3 class="mb-3">Grades</h3>
