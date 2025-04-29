@@ -4,8 +4,8 @@
   
 :host {
     display: block;
-    border-bottom: 1px solid #444;
     border-top: 5px solid #C41E3A;
+    background-color: #131317;
     box-shadow: 0 1px 2 rgba($color: #000000, $alpha: 1.0);
 }
 
@@ -24,4 +24,29 @@
 
 .navbar-brand:hover {
   box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-menu {
+  background-color: rgba(46, 46, 49, 0.2); // 0.9 opaque background
+  backdrop-filter: blur(20px); // strong blur effect
+  -webkit-backdrop-filter: blur(20px); // strong blur effect for WebKit browsers
+
+  color: white;
+  font-size: 1.2rem;
+  border: 1px solid #37373b;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px 5px rgba(15, 15, 15, 0.3);
+  padding: 10px;
+  
+}
+
+.dropdown-item {
+  color: white;
+  transition: background-color 0.3s ease;
+  border-radius: 7px;
+}
+
+.dropdown-item:hover {
+  background-color: #727272;
+  color: white;
 }

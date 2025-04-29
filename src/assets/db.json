@@ -11,6 +11,18 @@
       "name": "Isaac Trejo",
       "email": "itrejomendoza@my.apsu.edu",
       "type": "student"
+    },
+    {
+      "id": "ORmOe8QDmlgGUzV5EPv3cQpMxrG2",
+      "name": "David Trejo",
+      "email": "trejo.david@hotmail.com",
+      "type": "teacher"
+    },
+    {
+      "id": "E0hN1Wz9YBUA5pW4xODRK3BvJVu1",
+      "name": "Aleciya Summers",
+      "email": "aleciyanicolesummers50@gmail.com",
+      "type": "admin"
     }
   ],
   "courses": [

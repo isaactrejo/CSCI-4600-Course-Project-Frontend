@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-<nav class="navbar navbar-expand-lg navbar-dark px-4" style="background-color: #131313;">
+<nav class="navbar navbar-expand-lg navbar-dark px-4">
   <div class="container d-flex justify-content-between align-items-center">
     
     <ul class="navbar-nav d-flex flex-row">
@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Support
         </a>
-        <ul class="bg-dark dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-start">
           <li>
             <a class="dropdown-item" href="https://library.apsu.edu/" target="_blank" rel="noopener noreferrer">
               APSU Library

@@ -1,6 +1,56 @@
+.card {
+  background-color: rgba(46, 46, 49, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 .dark-card {
-    background-color: #131313;
-    color: #f1f1f1;
-    // box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9); // strong, noticeable shadow
-    border-radius: 0.25em;
-  }
+  background-color: rgba(46, 46, 49, 0.8);
+  color: #f1f1f1;
+  // box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9); // strong, noticeable shadow
+  border-radius: 1em;
+}
+
+.assignment-list {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.assignment-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.assignment-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.assignment-list::-webkit-scrollbar-thumb {
+  background-color: #535359;
+  opacity: 0.7;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+}
+
+.assignment-list::-webkit-scrollbar-thumb:hover {
+  background-color: #9494a4;
+  opacity: 0.7;
+  backdrop-filter: blur(20px); 
+}
+.assignment-list h4 {
+  margin-top: 20px;
+  color: white;
+}
+
+.assignment-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.assignment-list li {
+  padding: 10px;
+  border-bottom: 1px solid #f1f1f1
+}
+
+.assignment-list li:last-child {
+  border-bottom: none;
+}

@@ -1,7 +1,7 @@
 .file-list {
     display: flex;
     // flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px
 }
 
@@ -12,7 +12,8 @@
     border-radius: 1px;
     position: relative;
     transition: box-shadow 0.3s ease;
-    cursor: pointer
+    cursor: pointer;
+    width: 35%;
 }
 
 .file-item:hover {
@@ -45,7 +46,7 @@
 }
 
 .add-btn {
-    background-color: #3e3e3e;
+    background-color: rgba(46, 46, 49, 1);
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
@@ -54,8 +55,36 @@
     align-items: center;
     justify-content: center;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .add-btn:hover {
-    background-color: #2e2e2e
+    background-color: #535359
+}
+
+.comment-box {
+    background-color: #2e2e30;
+    color: white;
+    border: 1px solid #c2c2c2;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    
+}
+
+.comment-box::placeholder {
+    color:#888;
+}
+
+.submit-btn {
+    background-color: #419dff;
+    color: black;
+    font-weight: bold;
+    font-family: Arial;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #8ac3ff;
 }

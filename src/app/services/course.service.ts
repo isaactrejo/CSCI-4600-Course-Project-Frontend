@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { Course } from '../components/models/course';
+import { Assignment } from '../components/models/assignment.models';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,9 @@ export class CourseService {
         return course ? course.name : undefined;
       })
     );
+  }
+
+  getAllAssignments(): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${this.base}/assignments`);
   }
 }

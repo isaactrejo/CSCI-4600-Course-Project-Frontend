@@ -196,7 +196,22 @@ export class LoginPageComponent {
         this.authService.signIn(email, password)
           .then((userCredential) => {
             console.log("Logged in:", userCredential.user);
-            this.router.navigate(['/dashboard']); // change to your actual route
+
+            const user = this.getUserByEmail(email);
+
+            if(user) {
+              console.log("User type", user.type);
+
+              if (user.type === 'admin') {
+                this.router.navigate(['/admin']);
+              } else if (user.type === 'student' || user.type === 'teacher') {
+                this.router.navigate(['/dashboard']);
+              } else {
+                console.error("Unknown user type:", user.type);
+              }
+            } else {
+              console.error("User not found");
+            }
           })
           .catch((err) => {
             console.error("Login error:", err.message);
@@ -217,6 +232,17 @@ export class LoginPageComponent {
       console.warn("Form is invalid");
       // display validation errors
     }
+  }
+
+  private getUserByEmail(email: string) {
+    const users = [
+      { id: "Q4iCasahdPNYIijgw7gR7rTWKAR2", name: "Samuel Trejo", email: "mrto0ns@live.com", type: "student" },
+      { id: "DpXGwlEdYwc1esie02x6m6b1hVQ2", name: "Isaac Trejo", email: "xxxblindzniper@gmail.com", type: "student" },
+      { id: "ORmOe8QDmlgGUzV5EPv3cQpMxrG2", name: "David Trejo", email: "trejo.david@hotmail.com", type: "teacher" },
+      { id: "E0hN1Wz9YBUA5pW4xODRK3BvJVu1", name: "Aleciya Summers", email: "aleciyanicolesummers50@gmail.com", type: "admin" }
+    ];
+
+    return users.find(user => user.email === email);
   }
   
 }
