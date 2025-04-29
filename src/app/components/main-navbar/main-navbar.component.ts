@@ -1,7 +1,8 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-main-navbar',
@@ -19,7 +20,7 @@ import { Router, RouterModule } from '@angular/router';
         style="height: auto;">
     </a>
     <!-- Where title course title will be either name or blank ie (name || '')-->
-    <span class="navbar-text text-white" style="font-size: 1.1em;">{{ courseName || '' }}</span>
+    <span class="navbar-text text-white" style="font-size: 1.1em;">{{ courseName || 'Austin Peay State University' }}</span>
 
     <ul class="navbar-nav d-flex flex-row">
       <li class="nav-item me-4">
@@ -58,11 +59,29 @@ import { Router, RouterModule } from '@angular/router';
   `,
   styleUrl: './main-navbar.component.scss'
 })
-export class MainNavbarComponent {
-  @Input() courseName: string = '';
+export class MainNavbarComponent implements OnInit{
+  @Input() courseId: string = '';
+  courseName: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private courseService: CourseService) {}
   
+  ngOnInit() {
+    if(this.courseId) {
+      this.fetchCourseName(this.courseId);
+    }
+  }
+
+  fetchCourseName(courseId: string) {
+    this.courseService.getCourseName(courseId).subscribe({
+      next: (name) => {
+        this.courseName = name || 'Austin Peay State University';
+      },
+      error: (error) => {
+        console.error('Error fetching course name:', error);
+        this.courseName = 'Austin Peay State University'; // Fallback to default name
+      }
+    })
+  }
   signOut() {
     return this.authService.signOut();
   }

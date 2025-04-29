@@ -6,6 +6,7 @@ import { CourseComponent } from './components/course/course.component';
 import { AssignmentComponent } from './components/assignment/assignment.component';
 import { AuthService } from './services/auth.service';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { GradesComponent } from './components/grades/grades.component';
 
 export const routes: Routes = [
   { path: '', component: LoginPageComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'admin', component: AdminPageComponent, canActivate: [authGuard] },
   { path: 'course/:id', component: CourseComponent, canActivate: [authGuard] },
   { path: 'assignments/:id', component: AssignmentComponent, canActivate: [authGuard]},
+  { path: 'grades', component: GradesComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

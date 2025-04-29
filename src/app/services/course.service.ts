@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { Course } from '../components/models/course';
 import { Assignment } from '../components/models/assignment.models';
 
@@ -26,11 +26,9 @@ export class CourseService {
   }
 
   getCourseName(courseId: string): Observable<string | undefined> {
-    return this.http.get<Course[]>(`${this.base}/courses`).pipe(
-      map(courses => {
-        const course = courses.find(course => course.id === courseId);
-        return course ? course.name : undefined;
-      })
+    return this.http.get<Course>(`${this.base}/courses/${courseId}`).pipe(
+      map(course => course.name),
+      catchError(() => of(undefined))
     );
   }
 
