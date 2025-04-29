@@ -18,7 +18,7 @@ import { map } from 'rxjs';
 
 <div class="min-vh-100" style="background-color:rgb(15, 15, 19);">
       <!-- Course Navbar -->
-       <app-main-navbar [courseName]="courseName"></app-main-navbar>
+       <app-main-navbar></app-main-navbar>
       <app-course-navbar></app-course-navbar>
       
       <!-- Main Content Area -->

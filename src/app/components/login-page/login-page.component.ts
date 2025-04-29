@@ -32,25 +32,25 @@ import { take, tap } from 'rxjs';
               <!-- Only show these fields when signing up -->
               <div *ngIf="!isSigningIn" @expandCollapse>
                 <div class="form-floating mt-3 position-relative">
-                  <input formControlName="firstname" type="text" class="form-control" id="floatingFirstName" placeholder="First Name" required>
+                  <input formControlName="firstName" type="text" class="form-control" id="floatingFirstName" placeholder="First Name" required>
                   <label for="floatingFirstName">First Name</label>
                 </div>
                 <div class="form-floating mt-3 position-relative">
-                  <input formControlName="lastname" type="text" class="form-control" id="floatingLastName" placeholder="Last Name" required>
+                  <input formControlName="lastName" type="text" class="form-control" id="floatingLastName" placeholder="Last Name" required>
                   <label for="floatingLastName">Last Name</label>
                 </div>
                 <div class="mt-3">
                   <label class="form-label">I am a:</label>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="userType" id="studentRadio" value="student" formControlName="userType">
+                    <input class="form-check-input" type="radio" name="type" id="studentRadio" value="student" formControlName="type">
                     <label class="form-check-label" for="studentRadio">Student</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="userType" id="teacherRadio" value="teacher" formControlName="userType">
+                    <input class="form-check-input" type="radio" name="type" id="teacherRadio" value="teacher" formControlName="type">
                     <label class="form-check-label" for="teacherRadio">Teacher</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="userType" id="adminRadio" value="admin" formControlName="userType">
+                    <input class="form-check-input" type="radio" name="type" id="adminRadio" value="admin" formControlName="type">
                     <label class="form-check-label" for="adminRadio">Admin</label>
                   </div>
                 </div>
@@ -126,34 +126,39 @@ export class LoginPageComponent {
   isSigningIn: boolean = true;
 
   authForm: FormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    firstName: ['', [Validators.maxLength(32)]],
+    lastName: ['', [Validators.maxLength(32)]],
+    type: ['', [Validators.maxLength(32)]],
+    email: ['', [Validators.email]],
+    password: ['', [Validators.minLength(6)]],
+    firebaseId: ['', []],
   })
 
   ngOnInit() {
-    this.authService.isLoggedIn().pipe(
+    this.authService.resolve().pipe(
       take(1),
-      tap((isAllowed) => {
-        if (isAllowed) {
+      tap((appUser) => {
+
+        if(!appUser) {
+          console.error("User not found");
+          return;
+        };
+        
+        console.log("User type", appUser.type);
+
+        if (appUser.type === 'admin') {
+          this.router.navigate(['/admin']);
+        } else if (appUser.type === 'student' || appUser.type === 'teacher') {
           this.router.navigate(['/dashboard']);
+        } else {
+          console.error("Unknown user type:", appUser.type);
         }
+
       })
     ).subscribe();
   }
   
   goToSignUp() {
-    
-    /**
-      sudo coding to visualize  
-
-      boolean isSingingIn = true;
-      
-      if(isSinging true) {isSingingture fasle}
-      else if (isSinging false) {iSing true}
-
-
-     */
-    
       if(this.isSigningIn == true) {
         this.isSigningIn = false;
         console.log("Signing up");
@@ -173,55 +178,24 @@ export class LoginPageComponent {
     }
   }
 
-  /** 
-  onSubmit() {
-    
-    if (this.authForm.valid) {
-      if(this.isSigningIn == true) {
-        this.authService.signIn(this.authForm.value.email, this.authForm.value.password);
-      } else if(this.isSigningIn == false) {
-        this.authService.signUp(this.authForm.value.email, this.authForm.value.password);
-      }
-    } else {
-      // show an error
-    }
-  }
-    */
-
   onSubmit() {
     if (this.authForm.valid) {
       const { email, password } = this.authForm.value;
   
       if (this.isSigningIn) {
         this.authService.signIn(email, password)
-          .then((userCredential) => {
-            console.log("Logged in:", userCredential.user);
-
-            const user = this.getUserByEmail(email);
-
-            if(user) {
-              console.log("User type", user.type);
-
-              if (user.type === 'admin') {
-                this.router.navigate(['/admin']);
-              } else if (user.type === 'student' || user.type === 'teacher') {
-                this.router.navigate(['/dashboard']);
-              } else {
-                console.error("Unknown user type:", user.type);
-              }
-            } else {
-              console.error("User not found");
-            }
-          })
           .catch((err) => {
             console.error("Login error:", err.message);
             // show error message to user
           });
       } else {
-        this.authService.signUp(email, password)
+        const user = this.authForm.value;
+        this.authService.signUp(user.email, user.password)
           .then((userCredential) => {
             console.log("Signed up:", userCredential.user);
-            this.router.navigate(['/dashboard']); // change to your actual route
+            // this.router.navigate(['/dashboard']); // change to your actual route
+            user.firebaseId = userCredential.user.uid
+            this.authService.createUser(user)
           })
           .catch((err) => {
             console.error("Signup error:", err.message);
@@ -232,17 +206,6 @@ export class LoginPageComponent {
       console.warn("Form is invalid");
       // display validation errors
     }
-  }
-
-  private getUserByEmail(email: string) {
-    const users = [
-      { id: "Q4iCasahdPNYIijgw7gR7rTWKAR2", name: "Samuel Trejo", email: "mrto0ns@live.com", type: "student" },
-      { id: "DpXGwlEdYwc1esie02x6m6b1hVQ2", name: "Isaac Trejo", email: "xxxblindzniper@gmail.com", type: "student" },
-      { id: "ORmOe8QDmlgGUzV5EPv3cQpMxrG2", name: "David Trejo", email: "trejo.david@hotmail.com", type: "teacher" },
-      { id: "E0hN1Wz9YBUA5pW4xODRK3BvJVu1", name: "Aleciya Summers", email: "aleciyanicolesummers50@gmail.com", type: "admin" }
-    ];
-
-    return users.find(user => user.email === email);
   }
   
 }
