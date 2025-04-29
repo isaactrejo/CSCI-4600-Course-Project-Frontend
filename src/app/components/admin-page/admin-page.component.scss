@@ -1,0 +1,43 @@
+.card {
+    background-color: rgba(46, 46, 49);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .dark-card {
+    background-color: rgb(56, 56, 59);
+    color: #f1f1f1;
+    // box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9); // strong, noticeable shadow
+    border-radius: 1em;
+  }
+
+  .card-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .table-dark {
+    background-color: rgba(46, 46, 49);
+    color: #f1f1f1;
+    border-radius: 0.5em;
+    overflow: hidden;
+  }
+  
+  .table-dark th {
+    background-color: rgb(56, 56, 59);
+    color: #f1f1f1;
+    font-weight: bold;
+  }
+
+  .table-dark td {
+    background-color:  rgb(56, 56, 59);
+    color: #f1f1f1;
+  }
+
+  .table-dark tbody tr:nth-child(odd) {
+    background-color: rgb(46, 46, 49);
+  }
+
+  .table-dark tbody tr:hover {
+    background-color: rgb(88, 88, 95);
+  }
+

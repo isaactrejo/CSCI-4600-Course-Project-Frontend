@@ -1,10 +1,38 @@
-.dark-card {
+  .dark-card {
+    background-color: rgba(46, 46, 49);
     color: #f1f1f1;
-    border: none;
-    // box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
-    // border-radius: 0.25em;
+    // box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9); // strong, noticeable shadow
+    border-radius: 1em;
   }
 
+  .card-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  //custom table dark
+  .table-dark {
+    background-color: rgba(46, 46, 49);
+    color: #f1f1f1;
+    border-radius: 1em;
+  }
+  .table-dark th {
+    background-color: rgb(46, 46, 49);
+    color: #f1f1f1;
+    font-weight: 600;
+  }
+  .table-dark td {
+    background-color: rgba(46, 46, 49);
+    color: #f1f1f1;
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: rgba(46, 46, 49) !important;
+  }
+  
+  .table-hover tbody tr {
+    background-color: transparent; /* Ensure no default hover effect */
+  }
   .nav-tabs .nav-link {
     color: #aaa;
     background-color: #1a1a1a;
@@ -13,5 +41,5 @@
   .nav-tabs .nav-link.active {
     color: #fff;
     background-color: #131313;
-    border-bottom: 5px solid #444; // a subtle separator
+    border-bottom: 5px solid #b7b7b7; // a subtle separator
   }

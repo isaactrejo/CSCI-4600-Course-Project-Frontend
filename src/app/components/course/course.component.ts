@@ -16,7 +16,7 @@ import { map } from 'rxjs';
   ],
   template: `
 
-<div class="min-vh-100" style="background-color: #131313;">
+<div class="min-vh-100" style="background-color:rgb(15, 15, 19);">
       <!-- Course Navbar -->
        <app-main-navbar [courseName]="courseName"></app-main-navbar>
       <app-course-navbar></app-course-navbar>
@@ -27,9 +27,10 @@ import { map } from 'rxjs';
         <ul class="nav nav-tabs mb-3" role="tablist">
 
           <!-- Assignments Tab -->
-          <li class="nav-item" role="presentation">
+          <li class="card dark-card nav-item" role="presentation">
             <a 
-              class="bg-dark nav-link active" 
+              class="nav-link active text-white"
+              style = "background-color: rgba(46, 46, 49, 1);" 
               id="assignments-tab" 
               data-bs-toggle="tab" 
               href="#assignments" 
@@ -42,7 +43,8 @@ import { map } from 'rxjs';
           <!-- Quiz -->
           <li class="nav-item" role="presentation">
             <a 
-              class="bg-dark nav-link" 
+              class="nav-link text-white" 
+              style = "background-color: rgba(46, 46, 49, 1);" 
               id="quizzes-tab" 
               data-bs-toggle="tab" 
               href="#quizzes" 
@@ -56,7 +58,8 @@ import { map } from 'rxjs';
           <!-- Grades Tab -->
           <li class="nav-item" role="presentation">
             <a 
-              class="bg-dark nav-link" 
+              class="nav-link text-white" 
+              style = "background-color: rgba(46, 46, 49, 1);" 
               id="grades-tab" 
               data-bs-toggle="tab" 
               href="#grades" 
@@ -70,7 +73,8 @@ import { map } from 'rxjs';
           <!-- Discussion Tab -->
           <li class="nav-item" role="presentation">
             <a 
-              class="bg-dark nav-link" 
+              class="nav-link text-white" 
+              style = "background-color: rgba(46, 46, 49, 1);" 
               id="discussion-tab" 
               data-bs-toggle="tab" 
               href="#discussion" 
@@ -90,11 +94,10 @@ import { map } from 'rxjs';
             id="assignments" 
             role="tabpanel" 
             aria-labelledby="assignments-tab">
-            <div class="bg-dark card dark-card p-4">
+            <div class="card dark-card p-4">
               <h4 class="mb-3">Assignments Table</h4>
               <div class="table-responsive">
-                <table class="table table-dark table-striped table-hover">
-                  <thead>
+                <table class="table table-dark table-striped table-hover">                  <thead>
                     <tr>
                       <th scope="col">Assignment</th>
                       <th scope="col">Due Date</th>
@@ -124,7 +127,7 @@ import { map } from 'rxjs';
             id="quizzes" 
             role="tabpanel" 
             aria-labelledby="quizzes-tab">
-            <div class="bg-dark card dark-card p-4">
+            <div class="card dark-card p-4">
               <h4 class="mb-3">Quizzes</h4>
               <p>
                 No quizzes due yet. (Content to be loaded from SQL later.)
@@ -138,7 +141,7 @@ import { map } from 'rxjs';
             id="grades" 
             role="tabpanel" 
             aria-labelledby="grades-tab">
-            <div class="bg-dark card dark-card p-4">
+            <div class="card dark-card p-4">
               <h4 class="mb-3">Grades</h4>
               <p>
                 Grades will be displayed here.
@@ -152,7 +155,7 @@ import { map } from 'rxjs';
             id="discussion" 
             role="tabpanel" 
             aria-labelledby="discussion-tab">
-            <div class="bg-dark card dark-card p-4">
+            <div class="card dark-card p-4">
               <h4 class="mb-3">Discussion</h4>
               <p>
                 Discussion board coming soon.

@@ -24,7 +24,7 @@ import { Course } from '../models/course';
   ],
   template: `
   <div>
-    <div style="background-color: #131313; min-height: 100vh;">
+    <div style="background-color:rgb(15, 15, 19); min-height: 100vh;">
       <app-main-navbar></app-main-navbar>
       <app-dashboard-navbar></app-dashboard-navbar>
     <div>
@@ -34,7 +34,7 @@ import { Course } from '../models/course';
         
         <!-- Example: multiple cards side by side -->
         <div class="col-lg-9 text-center mb-3">
-          <div class="card bg-dark dark-card p-4 my-3">
+          <div class="card dark-card p-4 my-3">
             <h2 class="mb-3">My Courses</h2>
             <p *ngIf="!courses.length" class="text-muted">You have no current courses.</p>
 
@@ -42,7 +42,7 @@ import { Course } from '../models/course';
               <div class="col-md-4" *ngFor="let course of courses">
                 
                 <div 
-                  class="card bg-dark text-light h-100 shadow-sm"
+                  class="card dark-card h-100 shadow-sm"
                   [routerLink]="['/course', course.id]"
                   style="cursor: pointer;">
                   <img [src]="'https://picsum.photos/seed/' + course.id + '/400/200'" class="card-img-top" alt="Course image">

@@ -4,13 +4,14 @@ import { RouterModule } from '@angular/router';
 import { MainNavbarComponent } from '../main-navbar/main-navbar.component';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-assignment',
   standalone: true,
-  imports: [MainNavbarComponent, CommonModule, RouterModule],
+  imports: [MainNavbarComponent, CommonModule, RouterModule, FormsModule],
   template: `
-    <div style="background-color: #131313; min-height: 100vh;">
+    <div style="background-color:rgb(15, 15, 19); min-height: 100vh;">
       <app-main-navbar></app-main-navbar>
       <div class="container mt-4 text-white">
         <h1>{{ assignmentName || 'Assignment '}}</h1>
@@ -30,7 +31,7 @@ import { CourseService } from '../../services/course.service';
           multiple
         />
         <!-- Show selected files -->
-         <p *ngIf="selectedFiles.length" class="mt-3">Selected File(s) ({{selectedFiles.length}}) </p>
+         <p class="mt-3">Selected File(s) ({{selectedFiles.length}}). Remember to submit.</p>
          <div class="file-list mt-3">
           <div
             class="file-item"
@@ -46,17 +47,27 @@ import { CourseService } from '../../services/course.service';
             >X</button>
           </div>
          </div>
-        <!-- <form action="submit-assignment" method="post" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="assignmentFile" class="form-label">Upload Assignment</label>
-            <input 
-              type="file" 
-              class="form-control" 
-              id="assignmentFile" 
-              name="assignmentFile" 
-              required>
+        <div class="contrainer mt-4 text-white">
+          <p>Leave a Comment</p>
+          <textarea
+            class="form-control comment-box"
+            [(ngModel)]="comment"
+            rows="4"
+            placeholder="Write your comment here..."
+          ></textarea>
+          <button
+            class="btn submit-btn mt-3"
+            (click)="submitAssignment()"
+            >
+            Submit
+          </button>
+
+          <div *ngIf="submissionAttempted && submissionSuccess" class="alert alert-success mt-3">
+            Assignment submitted successfully.
           </div>
-        </form> -->
+          <div *ngIf="submissionAttempted && !submissionSuccess" class="alert alert-danger mt-3">
+            Error: You must add at least one file before submitting.
+        </div>
       </div>
     </div>
   `,
@@ -67,6 +78,9 @@ export class AssignmentComponent implements OnInit {
   assignmentName: string | null = null;
   selectedFiles: File[] = [];
   hoveredIndex: number | null = null;
+  comment: string = '';
+  submissionSuccess: boolean = false;
+  submissionAttempted: boolean = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   constructor(private route: ActivatedRoute, private courseService: CourseService) {}
@@ -101,5 +115,29 @@ export class AssignmentComponent implements OnInit {
 
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);
+  }
+
+  submitAssignment() {
+    this.submissionAttempted = true;
+
+    if (this.selectedFiles.length === 0) {
+      console.error('At least one file must be selected to submit.');
+      return;
+    }
+
+    console.log('Submitting assignment...');
+    if (this.selectedFiles.length > 0) {
+      console.log('Files:', this.selectedFiles);
+    }
+    if (this.comment.trim()) {
+      console.log('Comment:', this.comment);
+    }
+
+    setTimeout(() => {
+      this.submissionSuccess = true;
+      this.selectedFiles = [];
+      this.comment = '';
+      console.log('Assignment submitted successfully');
+    }, 1000);
   }
 }
