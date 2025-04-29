@@ -8,32 +8,21 @@ import { Assignment } from '../components/models/assignment.models';
   providedIn: 'root'
 })
 export class CourseService {
-  private base: string = 'http://localhost:3000';
+  private base: string = 'http://localhost:5149/api';
   private http: HttpClient = inject(HttpClient);
 
   constructor() { }
 
-  getCourses(uuid: string): Observable<Course[]> {
-    // return this.http.get<any[]>(`${this.base}/courses/${uuid}`);
-
-    return this.http.get<any[]>(`${this.base}/enrollments?userId=${uuid}`).pipe(
-      switchMap(enrollments => {
-        const courseIds = enrollments.map(e => e.courseId).join(',');
-        return this.http.get<Course[]>(`${this.base}/courses`).pipe(
-          map(courses => courses.filter(course => courseIds.includes(course.id)))
-        );
-      })
-    );
+  getCourses(id: number): Observable<Course[]> {
+    return this.http.get<any[]>(`${this.base}/course/${id}`);
   }
 
   getAssignments(courseId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.base}/assignments`).pipe(
-      map(assignments => assignments.filter(assignment => assignment.courseId === courseId))
-    );
+    return this.http.get<any[]>(`${this.base}/assignment/${courseId}`);
   }
 
   getAssignmentsById(assignmentId: string): Observable<any> {
-    return this.http.get<any>(`${this.base}/assignments/${assignmentId}`);
+    return this.http.get<any>(`${this.base}/assignment/${assignmentId}`);
   }
 
   getCourseName(courseId: string): Observable<string | undefined> {
@@ -45,7 +34,7 @@ export class CourseService {
     );
   }
 
-  getAllAssignments(): Observable<Assignment[]> {
-    return this.http.get<Assignment[]>(`${this.base}/assignments`);
+  getAllAssignments(id: number): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${this.base}/submission/${id}`);
   }
 }

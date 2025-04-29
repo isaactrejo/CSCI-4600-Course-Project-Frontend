@@ -9,6 +9,7 @@ import { WorkDueComponent } from '../work-due/work-due.component';
 import { User } from 'firebase/auth';
 import { CourseService } from '../../services/course.service';
 import { Course } from '../models/course';
+import { AppUser } from '../models/appuser';
 
 @Component({
   selector: 'app-dashboard',
@@ -76,7 +77,7 @@ export class DashboardComponent {
   authService: AuthService = inject(AuthService);
   courseService: CourseService = inject(CourseService);
 
-  user!: User;
+  user!: AppUser;
   courses: Course[] = [];
 
   signOut() {
@@ -85,7 +86,7 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.user = this.route.snapshot.data['user'];
-    this.courseService.getCourses(this.user.uid).subscribe(courses => {
+    this.courseService.getCourses(this.user.id).subscribe(courses => {
       this.courses = courses;
     })
   }

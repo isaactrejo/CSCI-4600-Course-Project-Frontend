@@ -5,6 +5,8 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { AppUser } from '../components/models/appuser';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +31,14 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
+  private appUserSubject = new BehaviorSubject<AppUser | null>(null); // will hold the real app user
+  appUser$ = this.appUserSubject.asObservable();
+
+  private backendBaseUrl = 'http://localhost:5149/api/user';
+
   private router = inject(Router);
+  private http = inject(HttpClient);
+  
   constructor() {
     this.app = initializeApp(this.firebaseConfig);
     this.auth = getAuth();
@@ -41,6 +50,7 @@ export class AuthService {
         console.log("User is signed in with UID:", uid);
         this.authStateSubject.next(true);
         this.userSubject.next(user);
+        this.fetchAppUser(uid);
       } else {
         // User is signed out, perform actions like redirecting to the login page
         console.log("User is signed out");
@@ -49,6 +59,21 @@ export class AuthService {
       }
     });
   }
+
+  private fetchAppUser(firebaseId: string) {
+    this.http.get<any>(`${this.backendBaseUrl}/${firebaseId}`)
+      .subscribe({
+        next: (user) => {
+          console.log('Fetched app user:', user);
+          this.appUserSubject.next(user);
+        },
+        error: (error) => {
+          console.error('Error fetching app user:', error);
+          this.appUserSubject.next(null);
+        }
+      });
+  }
+
   signIn(email: string, password: string): Promise<any> {
     return signInWithEmailAndPassword(this.auth, email, password)
       .catch((error) => {
@@ -87,9 +112,9 @@ export class AuthService {
     );
   }
 
-  resolve(): Observable<User | null> {
-    return this.user$.pipe(
-      filter(user => user !== null), // wait until user is available
+  resolve(): Observable<AppUser | null> {
+    return this.appUser$.pipe(
+      filter(user => user !== null), // wait until the real app user is available
       take(1),
       map(user => user)
     );

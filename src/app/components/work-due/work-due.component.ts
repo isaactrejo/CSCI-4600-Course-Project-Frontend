@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourseService } from '../../services/course.service';
 import { Assignment } from '../models/assignment.models';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-work-due',
@@ -31,12 +32,14 @@ import { Assignment } from '../models/assignment.models';
 })
 export class WorkDueComponent implements OnInit {
   groupedAssignments: { dateRange: string; assignments: Assignment[] }[] = [];
+  route: ActivatedRoute = inject(ActivatedRoute);
   
   constructor(
     private courseService: CourseService) { }
 
   ngOnInit() {
-    this.courseService.getAllAssignments().subscribe(assignments => {
+    const user = this.route.snapshot.data['user'];
+    this.courseService.getAllAssignments(user.id).subscribe(assignments => {
       const sortedAssignments = assignments.sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
       this.groupedAssignments = this.groupAssignmentsByTwoWeeks(sortedAssignments);
     })
