@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { take, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -119,6 +119,7 @@ export class LoginPageComponent {
   router: Router = inject(Router);
   authService: AuthService = inject(AuthService);
   formBuilder: FormBuilder = inject(FormBuilder);
+  userSubscription!: Subscription;
 
   passwordFieldType: string = 'password';
   passwordIcon: string = 'bi-eye-slash';
@@ -135,27 +136,22 @@ export class LoginPageComponent {
   })
 
   ngOnInit() {
-    this.authService.resolve().pipe(
-      take(1),
-      tap((appUser) => {
+    this.userSubscription = this.authService.appUser$.subscribe(appUser => {
+      if(!appUser) {
+        console.error("User not found");
+        return;
+      };
+      
+      console.log("User type", appUser.type);
 
-        if(!appUser) {
-          console.error("User not found");
-          return;
-        };
-        
-        console.log("User type", appUser.type);
-
-        if (appUser.type === 'admin') {
-          this.router.navigate(['/admin']);
-        } else if (appUser.type === 'student' || appUser.type === 'teacher') {
-          this.router.navigate(['/dashboard']);
-        } else {
-          console.error("Unknown user type:", appUser.type);
-        }
-
-      })
-    ).subscribe();
+      if (appUser.type === 'admin') {
+        this.router.navigate(['/admin']);
+      } else if (appUser.type === 'student' || appUser.type === 'teacher') {
+        this.router.navigate(['/dashboard']);
+      } else {
+        console.error("Unknown user type:", appUser.type);
+      }
+    })
   }
   
   goToSignUp() {
