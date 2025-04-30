@@ -214,7 +214,7 @@ export class CourseComponent implements OnInit, OnDestroy {
                   error: error => console.error('Error fetching course name:', error)
                 });
     
-              this.courseService.getAssignments(this.courseId)
+              this.courseService.getAssignments(userId, this.courseId)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                   next: assignments => {

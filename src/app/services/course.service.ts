@@ -17,25 +17,12 @@ export class CourseService {
     return this.http.get<any[]>(`${this.base}/course/${id}`);
   }
 
-  getAssignments(courseId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.base}/assignment/${courseId}`);
+  getAssignments(userId: string, courseId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/assignment?userId=${userId}&courseId=${courseId}`);
   }
 
   getAssignmentsById(assignmentId: string, courseId: string): Observable<Assignment | undefined> {
-    return this.getAssignments(courseId).pipe(
-      map(assignments => {
-        const assignment = assignments.find(a => a.id.toString() === assignmentId);
-        if (!assignment) {
-          console.warn(`Assignment with ID ${assignmentId} not found in coures ${courseId} not found in coures ${courseId}`);
-        }
-        return assignment;
-      }),
-      tap(assignment => console.log('Filtered assignment:', assignment)),
-      catchError(error => {
-        console.error(`Error fetching assignments for course ${courseId}:`, error);
-        return of(undefined);
-      })
-    );
+    return this.http.get<any>(`${this.base}/assignment/${assignmentId}`);
   }
 
   getAllAssignments(id: number): Observable<Assignment[]> {
