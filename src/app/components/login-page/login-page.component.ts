@@ -153,6 +153,12 @@ export class LoginPageComponent {
       }
     })
   }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
   
   goToSignUp() {
       if(this.isSigningIn == true) {

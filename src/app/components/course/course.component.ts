@@ -1,10 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { CourseNavbarComponent } from '../course-navbar/course-navbar.component';
 import { CommonModule } from '@angular/common';
 import { MainNavbarComponent } from "../main-navbar/main-navbar.component";
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../services/course.service';
-import { map } from 'rxjs';
+import { map, Subject, take, takeUntil } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { GradesComponent } from '../grades/grades.component';
 
 @Component({
   selector: 'app-course',
@@ -12,13 +14,15 @@ import { map } from 'rxjs';
   imports: [
     CourseNavbarComponent,
     CommonModule,
-    MainNavbarComponent
+    MainNavbarComponent,
+    GradesComponent
   ],
   template: `
 
 <div class="min-vh-100" style="background-color:rgb(15, 15, 19);">
       <!-- Course Navbar -->
-       <app-main-navbar></app-main-navbar>
+       <!-- give navbar course name -->
+       <app-main-navbar [courseName]="courseName"></app-main-navbar>
       <app-course-navbar></app-course-navbar>
       
       <!-- Main Content Area -->
@@ -143,9 +147,12 @@ import { map } from 'rxjs';
             aria-labelledby="grades-tab">
             <div class="card dark-card p-4">
               <h4 class="mb-3">Grades</h4>
-              <p>
-                Grades will be displayed here.
-              </p>
+              <div *ngIf="grades.length > 0; else noGrades">
+                <app-grades [userId]="userId"></app-grades>
+              </div>
+              <ng-template #noGrades>
+                <p> No grades available for this course.</p>
+              </ng-template>
             </div>
           </div>
           
@@ -169,30 +176,84 @@ import { map } from 'rxjs';
   `,
   styleUrls: ['./course.component.scss']
 })
-export class CourseComponent implements OnInit {
-
+export class CourseComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   courseId: string | null = null;
   assignments: any[] = [];
   courseName: string = '';
+  grades: any[] = [];
+  userId: string = '';
 
-  constructor(private route: ActivatedRoute, private courseService: CourseService, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private courseService: CourseService, 
+    private router: Router,
+    private authService: AuthService) { }
 
-  ngOnInit() {
-    this.courseId = this.route.snapshot.paramMap.get('id');
-    console.log('Course ID:', this.courseId);
+    ngOnInit() {
+      this.courseId = this.route.snapshot.paramMap.get('id');
+      console.log('Course ID:', this.courseId);
+    
+      this.authService.getUserId()
+        .pipe(
+          take(1),
+        )
+        .subscribe({
+          next: userId => {
+            console.log('User ID:', userId);
+            this.userId = userId; // Assign the userId to the component property
+    
+            if (this.courseId) {
+              this.courseService.getCourseName(userId, this.courseId)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe({
+                  next: name => {
+                    this.courseName = name;
+                    console.log('Course Name:', this.courseName);
+                  },
+                  error: error => console.error('Error fetching course name:', error)
+                });
+    
+              this.courseService.getAssignments(this.courseId)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe({
+                  next: assignments => {
+                    this.assignments = assignments;
+                    console.log('Assignments:', this.assignments);
+                  },
+                  error: error => console.error('Error fetching assignments:', error)
+                });
+            }
 
-    if(this.courseId) {
-      this.courseService.getCourseName(this.courseId).subscribe(name => {
-        this.courseName = name || '';
-      });
+            this.fetchGrades(userId);
+            console.log('User ID passed to GradesComponent:', this.userId);
+          },
+          error: error => console.error('Error fetching user ID:', error)
+        });
+    }
 
-      this.courseService.getAssignments(this.courseId).subscribe(assignments => {
-        this.assignments = assignments;
-      });
+  navigateToAssignment(assignmentId: string) {
+    if (this.courseId) {
+      this.router.navigate(['/assignments', assignmentId], { queryParams: { courseId: this.courseId } });
+    } else {
+      console.error('Course ID is not available for navigation.');
     }
   }
 
-  navigateToAssignment(assignmentId: string) {
-    this.router.navigate(['/assignments', assignmentId]);
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  fetchGrades(userId: string) {
+    this.courseService.getGrades(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: grades => {
+          this.grades = grades;
+          console.log('Grades:', this.grades);
+        },
+        error: error => console.error('Error fetching grades:', error)
+      });
   }
 }
