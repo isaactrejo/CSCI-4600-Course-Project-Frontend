@@ -246,7 +246,7 @@ export class CourseComponent implements OnInit, OnDestroy {
   }
 
   fetchGrades(userId: string) {
-    this.courseService.getGrades(userId)
+    this.courseService.getGrades(userId, this.courseId!)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: grades => {

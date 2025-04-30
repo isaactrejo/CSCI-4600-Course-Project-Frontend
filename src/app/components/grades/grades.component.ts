@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-grades',
@@ -32,6 +33,8 @@ export class GradesComponent implements OnInit {
   @Input() userId: string = '';
   assignments: { name: string; grade: string }[] =[];
 
+  private route: ActivatedRoute = inject(ActivatedRoute);
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -42,8 +45,9 @@ export class GradesComponent implements OnInit {
   }
 
   fetchGrades(userId: string) {
+    const courseId = this.route.snapshot.paramMap.get('id');
     console.log('Fetching grades for user:', userId);
-    this.http.get<any[]>(`http://localhost:5149/api/Submission/grades/${userId}`).subscribe({
+    this.http.get<any[]>(`http://localhost:5149/api/Submission/grades?userId=${userId}&courseId=${courseId}`).subscribe({
       next: (response) => {
         this.assignments = response.map((submission) => ({
           name: submission.assignment.name,
