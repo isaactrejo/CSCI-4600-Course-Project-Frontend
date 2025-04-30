@@ -68,8 +68,8 @@ export class CourseService {
     return this.http.get<{ data: any[]; total: number }>(`${this.base}/course?page=${page}&pageSize=${pageSize}`);
   }
 
-  getGrades(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.base}/Submission/grades/${userId}`);
+  getGrades(userId: string, courseId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/Submission/grades?userId=${userId}&courseId=${courseId}`);
   }
 }
 
