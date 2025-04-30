@@ -7,21 +7,20 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [NgFor],
   template: `
-    <div class="card dark-card p-4 my-3">
-      <h3 class="mb-3">Grades</h3>
+    <div class="container mt-4">
       <table class="table table-dark table-striped">
         <thead>
           <tr>
             <th scope="col">Assignment</th>
             <th scope="col">Grade</th>
-            <th scope="col">Feedback</th>
+            <!-- <th scope="col">Feedback</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let grade of grades">
-            <td>{{ grade.assignmentName }}</td>
-            <td>{{ grade.grade }}</td>
-            <td>{{ grade.feedback }}</td>
+          <tr *ngFor="let assignment of assignments">
+            <td>{{ assignment.name }}</td>
+            <td>{{ assignment.grade }}</td>
+            <!-- <td>{{ grade.feedback }}</td> -->
           </tr>
         </tbody>
       </table>
@@ -30,24 +29,30 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './grades.component.scss'
 })
 export class GradesComponent implements OnInit {
-  @Input() courseId: string = '';
-  grades: { assignmentName: string; grade: string; feedback: string } [] = [];
+  @Input() userId: string = '';
+  assignments: { name: string; grade: string }[] =[];
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    if (this.courseId) {
-      this.fetchGrades(this.courseId);
+    console.log('GradesComponent initialized with userId:', this.userId);
+    if (this.userId) {
+      this.fetchGrades(this.userId);
     }
   }
 
-  fetchGrades(courseId: string) {
-    this.http.get<any[]>(`http://localhost:3000/grades?courseId=${courseId}`).subscribe((grades) => {
-      this.grades = grades.map((grade) => ({
-        assignmentName: grade.assignmentName,
-        grade: `${grade.score}/${grade.total}`,
-        feedback: grade.feedback || 'No feedback provided'
-      }));
+  fetchGrades(userId: string) {
+    console.log('Fetching grades for user:', userId);
+    this.http.get<any[]>(`http://localhost:5149/api/Submission/grades/${userId}`).subscribe({
+      next: (response) => {
+        this.assignments = response.map((submission) => ({
+          name: submission.assignment.name,
+          grade: submission.status === 'Graded' ? `${submission.score}/100` : '--/--'
+        }));
+      },
+      error: (error) => {
+        console.error('Error fetching grades:', error);
+      }
     });
   }
 }

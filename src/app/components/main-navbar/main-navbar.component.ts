@@ -59,29 +59,14 @@ import { CourseService } from '../../services/course.service';
   `,
   styleUrl: './main-navbar.component.scss'
 })
-export class MainNavbarComponent implements OnInit{
-  @Input() courseId: string = '';
-  courseName: string = '';
+export class MainNavbarComponent{
+  @Input() courseName: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private courseService: CourseService) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router, 
+    private courseService: CourseService) {}
   
-  ngOnInit() {
-    if(this.courseId) {
-      this.fetchCourseName(this.courseId);
-    }
-  }
-
-  fetchCourseName(courseId: string) {
-    this.courseService.getCourseName(courseId).subscribe({
-      next: (name) => {
-        this.courseName = name || 'Austin Peay State University';
-      },
-      error: (error) => {
-        console.error('Error fetching course name:', error);
-        this.courseName = 'Austin Peay State University'; // Fallback to default name
-      }
-    })
-  }
   signOut() {
     return this.authService.signOut();
   }

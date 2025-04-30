@@ -4,7 +4,9 @@ import { RouterModule } from '@angular/router';
 import { MainNavbarComponent } from '../main-navbar/main-navbar.component';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../services/course.service';
+import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-assignment',
@@ -12,7 +14,7 @@ import { FormsModule } from '@angular/forms';
   imports: [MainNavbarComponent, CommonModule, RouterModule, FormsModule],
   template: `
     <div style="background-color:rgb(15, 15, 19); min-height: 100vh;">
-      <app-main-navbar></app-main-navbar>
+      <app-main-navbar [courseName]="courseName"></app-main-navbar>
       <div class="container mt-4 text-white">
         <h1>{{ assignmentName || 'Assignment '}}</h1>
         <p>This is the assignment component.</p>
@@ -76,6 +78,7 @@ import { FormsModule } from '@angular/forms';
 export class AssignmentComponent implements OnInit {
   assignmentId: string | null = null;
   assignmentName: string | null = null;
+  courseName: string = '';
   selectedFiles: File[] = [];
   hoveredIndex: number | null = null;
   comment: string = '';
@@ -83,16 +86,49 @@ export class AssignmentComponent implements OnInit {
   submissionAttempted: boolean = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef;
-  constructor(private route: ActivatedRoute, private courseService: CourseService) {}
+
+  constructor(
+    private route: ActivatedRoute, 
+    private courseService: CourseService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.assignmentId = this.route.snapshot.paramMap.get('id');
     console.log('Assignment Id:', this.assignmentId);
-
+  
     if (this.assignmentId) {
-      this.courseService.getAssignmentsById(this.assignmentId).subscribe(
+      const courseId = this.route.snapshot.queryParamMap.get('courseId');
+      if (!courseId) {
+        console.error('Course ID not found in query parameters.');
+        return;
+      }
+      this.courseService.getAssignmentsById(this.assignmentId, courseId).subscribe(
         assignment => {
-          this.assignmentName = assignment?.name || 'Assignment';
+          if (assignment) {
+            console.log('Fetched assignment details:', assignment);
+            this.assignmentName = assignment.name;
+            const courseId = assignment.courseId;
+  
+            if (courseId) {
+              this.authService.getUserId()
+                .pipe(take(1))
+                .subscribe(userId => {
+                  this.courseService.getCourseName(userId, courseId.toString())
+                    .subscribe({
+                      next: name => {
+                        this.courseName = name;
+                        console.log('Course Name:', this.courseName);
+                      },
+                      error: error => console.error('Error fetching course name:', error)
+                    });
+                });
+            } else {
+              console.warn('No course ID found for this assignment.');
+            }
+          } else {
+            console.warn('Assignment not found.');
+          }
         },
         error => {
           console.error('Error fetching assignment:', error);
@@ -120,24 +156,32 @@ export class AssignmentComponent implements OnInit {
   submitAssignment() {
     this.submissionAttempted = true;
 
-    if (this.selectedFiles.length === 0) {
-      console.error('At least one file must be selected to submit.');
-      return;
-    }
-
-    console.log('Submitting assignment...');
-    if (this.selectedFiles.length > 0) {
-      console.log('Files:', this.selectedFiles);
-    }
-    if (this.comment.trim()) {
-      console.log('Comment:', this.comment);
-    }
-
     setTimeout(() => {
-      this.submissionSuccess = true;
-      this.selectedFiles = [];
-      this.comment = '';
-      console.log('Assignment submitted successfully');
-    }, 1000);
+      if (this.selectedFiles.length === 0) {
+        console.error('At least one file must be selected to submit.');
+        this.submissionSuccess = false;
+        return;
+      }
+
+      if (this.selectedFiles.length === 0) {
+        console.error('At least one file must be selected to submit.');
+        return;
+      }
+
+      console.log('Submitting assignment...');
+      if (this.selectedFiles.length > 0) {
+        console.log('Files:', this.selectedFiles);
+      }
+      if (this.comment.trim()) {
+        console.log('Comment:', this.comment);
+      }
+
+      setTimeout(() => {
+        this.submissionSuccess = true;
+        this.selectedFiles = [];
+        this.comment = '';
+        console.log('Assignment submitted successfully');
+      }, 1000);
+    }, 500);
   }
 }

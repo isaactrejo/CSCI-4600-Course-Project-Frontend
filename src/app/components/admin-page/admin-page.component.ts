@@ -4,6 +4,7 @@ import { DashboardNavbarComponent } from "../dashboard-navbar/dashboard-navbar.c
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -20,7 +21,7 @@ import { HttpClient } from '@angular/common/http';
           <div class="mb-3">
             <input
               type="text"
-              class="form-control"
+              class="form-control dark-input text-white"
               placeholder="Search users"
               [(ngModel)]="searchQuery"
             />
@@ -103,8 +104,11 @@ export class AdminPageComponent {
   searchQuery: string = '';
   users: any[] = [];
   courses: any[] = [];
+  userPage: number = 1;
+  coursePage: number = 1;
+  pageSize: number = 10;
 
-  constructor(private http: HttpClient) {}
+  constructor(private courseService: CourseService) {}
 
   ngOnInit() {
     this.fetchUsers();
@@ -112,15 +116,35 @@ export class AdminPageComponent {
   }
 
   fetchUsers() {
-    this.http.get<any[]>('http://localhost:3000/users').subscribe(users => {
-      this.users = users;
+    this.courseService.getPaginatedUsers(this.userPage, this.pageSize).subscribe({
+      next: response => {
+        this.users = [...this.users, ...response.data];
+      },
+      error: error => {
+        console.error('Error fetching users:', error);
+      }
+    });
+  }
+  
+  fetchCourses() {
+    this.courseService.getPaginatedCourse(this.coursePage, this.pageSize).subscribe({
+      next: response => {
+        this.courses = [...this.courses, ...response.data];
+      },
+      error: error => {
+        console.error('Error fetching courses:', error);
+      }
     });
   }
 
-  fetchCourses() {
-    this.http.get<any[]>('http://localhost:3000/courses').subscribe(courses => {
-      this.courses = courses;
-    });
+  loadMoreUsers() {
+    this.userPage++;
+    this.fetchUsers();
+  }
+
+  loadMoreCourses() {
+    this.coursePage++;
+    this.fetchCourses();
   }
 
   filteredUsers() {

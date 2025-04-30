@@ -140,4 +140,12 @@ export class AuthService {
   setAuthState(user: User | null) {
     this.authStateUser$.next(user);
   }
+
+  getUserId(): Observable<string> {
+    return this.appUser$.pipe(
+      filter(appUser => appUser !== null),
+      take(1),
+      map(appUser => appUser!.id.toString())
+    );
+  }
 }
